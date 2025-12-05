@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 func containsDouble(first string, second string) (int, error) {
@@ -20,7 +20,7 @@ func containsDouble(first string, second string) (int, error) {
 		return 0, err
 	}
 
-	if l < f { 
+	if l < f {
 		return 0, errors.New("last number is less than first number: " + first + "-" + second)
 	}
 
@@ -50,29 +50,28 @@ func containsRepeatingPattern(first string, second string) (int, error) {
 		return 0, err
 	}
 
-	if l < f { 
+	if l < f {
 		return 0, errors.New("last number is less than first number: " + first + "-" + second)
 	}
 
 	for i := f; i <= l; i++ {
 		numStr := strconv.Itoa(i)
+		length := len(numStr)
 
-		divisors := []int{}
-		for d := 1; d < len(numStr); d++ {
-			if len(numStr)%d == 0 {
-				divisors = append(divisors, d)
+		for d := 1; d*2 <= length; d++ {
+			if length%d != 0 {
+				continue
 			}
-		}
 
-		for _, d := range divisors {
-			pattern := strings.Join(strings.Split(numStr, "")[0:d], "")
+			pattern := numStr[:d]
 			matches := true
-			for j := d; j < len(numStr); j += d {
+			for j := d; j < length; j += d {
 				if numStr[j:j+d] != pattern {
 					matches = false
 					break
 				}
 			}
+
 			if matches {
 				ret += i
 				break
